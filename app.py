@@ -13,7 +13,6 @@ df = pd.read_csv('StudentsPerformance G5-G6 - StudentsPerformance G5-G6.csv')
 
 df['average'] = round((df['math score'] + df['reading score'] + df['writing score']) / 3)
 
-st.dataframe(df)
 
 # ---- Calculo los porcentajes 
 
