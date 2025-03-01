@@ -13,9 +13,6 @@ df = pd.read_csv('StudentsPerformance G5-G6 - StudentsPerformance G5-G6.csv')
 # ---- Calculo de notas (letras)
 df['average'] = round((df['math score'] + df['reading score'] + df['writing score']) / 3)
 
-<<<<<<< Updated upstream
-st.dataframe(df)
-=======
 def nota_a_letra(nota):
     if nota >= 90:
         return "A"
@@ -27,7 +24,6 @@ def nota_a_letra(nota):
         return "D"
     else:
         return "F"
->>>>>>> Stashed changes
 
 df['nota'] = df['average'].apply(nota_a_letra)
 
