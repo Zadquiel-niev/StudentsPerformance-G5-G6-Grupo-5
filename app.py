@@ -61,6 +61,8 @@ fig2 = px.bar(notas_df, x='Nota', y= 'conteo')
 fig2.update_layout(
     xaxis_title="", 
     yaxis_title="",
+    height=380,
+    margin=dict(l=0, r=0, t=0, b=0)
     )
 fig2.update_traces(
     marker=dict(color='RebeccaPurple'),
@@ -68,11 +70,49 @@ fig2.update_traces(
     textposition='outside' 
 )
 
-# ---- Tabla
-fig3 = go.Figure()
+# ---- Tabla 1
+fig3 = go.Figure(data=go.Table(
+    columnwidth=10,
+    header=dict(values=["Nota", "Porcentaje"],
+                align='center',
+                line_width=2,
+                height=35,
+                font=dict(color='white', size=20)),
+    cells=dict(values=[notas_df['Nota'], (notas_df['conteo'] / len(df) * 100).round(1).astype(str) + '%'],
+               align='center',
+               line_width=2,
+               height=30,
+               font=dict(color='white', size=18))
+))
 
-fig3.update_layout()
+fig3.update_layout(
+    autosize=False,
+    width=300,
+    height=200,
+    margin=dict(l=0, r=0, t=0, b=0)
+    )
 
+# ---- Tabla 2
+fig4 = go.Figure(data=go.Table(
+    columnwidth=10,
+    header=dict(values=["Nivel Educativo", "Porcentaje"],
+                align='center',
+                line_width=2,
+                height=35,
+                font=dict(color='white', size=20)),
+    cells=dict(values=[parental_df['Nivel Educativo'], (parental_df['conteo'] / len(df) * 100).round(1).astype(str) + '%'],
+               align='center',
+               line_width=2,
+               height=30,
+               font=dict(color='white', size=18))
+))
+
+fig4.update_layout(
+    autosize=False,
+    width=400,
+    height=300,
+    margin=dict(l=0, r=0, t=0, b=0)
+    )
 
 #---- PAGINA PRINCIPAL ----
 st.title(":male-student: Rendimiento de los estudiantes")
@@ -82,18 +122,24 @@ st.markdown("##")
 
 nota_prom = int(df['average'].mean())
 
-left_column, middle_column, right_column = st.columns(3)
-with left_column:
+left_column1, middle_column1, right_column1 = st.columns([2, 1.5, 2.5])
+with left_column1:
     st.subheader("Nota promedio")
     st.subheader(str(nota_prom) + "/100")
-with middle_column:
+with middle_column1:
     st.subheader("Notas")
-    st.table(notas_df)
-    st.markdown("##")
-
-with right_column:
+    st.plotly_chart(fig3,use_container_width=False)
+with right_column1:
     st.plotly_chart(fig2)
 
-st.markdown("---")
+with st.container():
+    st.markdown("---") 
+    st.subheader("Nivel educativo de los padres")
+    left_column2, middle_column2, right_column2 = st.columns([2, 1.5, 2.5])
+    #with left_column2:
 
+    with middle_column2:
+        st.plotly_chart(fig4,use_container_width=False)
+    with right_column2:
+        st.plotly_chart(fig1)
 
