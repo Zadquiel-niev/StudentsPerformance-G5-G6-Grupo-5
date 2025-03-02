@@ -30,11 +30,23 @@ df['nota'] = df['average'].apply(nota_a_letra)
 # ---- SIDEBAR
 st.sidebar.header("Filtros")
 preparacion = st.sidebar.multiselect(
-    "Escoja el nivel de eduación:",
+    "Preparación previa",
     options=df['test preparation course'].unique(),
-    default=df['test preparation course'].unique()
+    default=sorted(df['test preparation course'].unique())
     )
-df_selection = df[df['test preparation course'].isin(preparacion)]
+notas = st.sidebar.multiselect(
+    "Nota",
+    options=df['nota'].unique(),
+    default=sorted(df['nota'].unique())
+    )
+nivel_edu = st.sidebar.multiselect(
+    "Nivel educativo de los padres",
+    options=df['parental level of education'].unique(),
+    default=sorted(df['parental level of education'].unique())
+    )
+
+
+df_selection = df[df['test preparation course'].isin(preparacion) & df['nota'].isin(notas) & df['parental level of education'].isin(nivel_edu)]
 
 # ---- Grafico
 parental_df = df_selection['parental level of education'].value_counts().reset_index()
@@ -120,7 +132,7 @@ st.markdown("##")
 
 #---- NOTAS ESTUDIANTES ----
 
-nota_prom = int(df['average'].mean())
+nota_prom = int(df_selection['average'].mean())
 
 left_column1, middle_column1, right_column1 = st.columns([2, 1.5, 2.5])
 with left_column1:
