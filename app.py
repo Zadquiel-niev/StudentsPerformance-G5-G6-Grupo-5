@@ -10,8 +10,31 @@ st.set_page_config(page_title="Rendimiento de los estudiantes",
 
 df = pd.read_csv('StudentsPerformance G5-G6 - StudentsPerformance G5-G6.csv')
 
+# ---- Traducción del DataFrame
+df = df.rename(columns={
+    'gender': 'Género',
+    'race/ethnicity': 'Raza',
+    'parental level of education': 'Nivel educativo de los padres',
+    'lunch': 'almuerzo',
+    'test preparation course': 'Preparación',
+    'math score': 'Nota en matemáticas',
+    'reading score': 'Nota en lectura',
+    'writing score': 'Nota en escritura'
+})
+
+
+df['Preparación'] = df['Preparación'].replace({'completed': 'Completado', 'none': 'Ninguno'})
+df['Nivel educativo de los padres'] = df['Nivel educativo de los padres'].replace({
+    'associate\'s degree': 'Título de asociado',
+    'bachelor\'s degree': 'Licenciatura',
+    'high school': 'Escuela secundaria',
+    'master\'s degree': 'Título de maestría',
+    'some college': 'Algun estudio universitario',
+    'some high school': 'Algun estudio de secundaria'
+})
+
 # ---- Calculo de notas (letras)
-df['average'] = round((df['math score'] + df['reading score'] + df['writing score']) / 3)
+df['promedio'] = round((df['Nota en matemáticas'] + df['Nota en lectura'] + df['Nota en escritura']) / 3)
 
 def nota_a_letra(nota):
     if nota >= 90:
@@ -25,14 +48,14 @@ def nota_a_letra(nota):
     else:
         return "F"
 
-df['nota'] = df['average'].apply(nota_a_letra)
+df['nota'] = df['promedio'].apply(nota_a_letra)
 
 # ---- SIDEBAR
 st.sidebar.header("Filtros")
 preparacion = st.sidebar.multiselect(
     "Preparación previa",
-    options=df['test preparation course'].unique(),
-    default=sorted(df['test preparation course'].unique())
+    options=df['Preparación'].unique(),
+    default=sorted(df['Preparación'].unique())
     )
 notas = st.sidebar.multiselect(
     "Nota",
@@ -41,15 +64,15 @@ notas = st.sidebar.multiselect(
     )
 nivel_edu = st.sidebar.multiselect(
     "Nivel educativo de los padres",
-    options=df['parental level of education'].unique(),
-    default=sorted(df['parental level of education'].unique())
+    options=df['Nivel educativo de los padres'].unique(),
+    default=sorted(df['Nivel educativo de los padres'].unique())
     )
 
 
-df_selection = df[df['test preparation course'].isin(preparacion) & df['nota'].isin(notas) & df['parental level of education'].isin(nivel_edu)]
+df_selection = df[df['Preparación'].isin(preparacion) & df['nota'].isin(notas) & df['Nivel educativo de los padres'].isin(nivel_edu)]
 
 # ---- Grafico
-parental_df = df_selection['parental level of education'].value_counts().reset_index()
+parental_df = df_selection['Nivel educativo de los padres'].value_counts().reset_index()
 parental_df.columns = ['Nivel Educativo', 'conteo']
 parental_df.sort_values('conteo', ascending=True, inplace=True)
 
@@ -80,6 +103,22 @@ fig2.update_traces(
     marker=dict(color='RebeccaPurple'),
     text=notas_df[ 'conteo'], 
     textposition='outside' 
+)
+
+# ---- Grafico 3
+
+fig5 = px.histogram(df, y="nota", color="Preparación",
+    category_orders={"nota": ['A', 'B', 'C', 'D', 'F']}, 
+    barnorm='percent',
+    title="Distribución de Notas por Preparación previa")
+fig5.update_layout(
+    legend_title_text='Curso de Preparación',
+    legend=dict(
+        traceorder='reversed'
+    ),
+    xaxis=dict(
+        title='Porcentaje'),
+    xaxis_ticksuffix="%"
 )
 
 # ---- Tabla 1
@@ -132,7 +171,7 @@ st.markdown("##")
 
 #---- NOTAS ESTUDIANTES ----
 
-nota_prom = int(df_selection['average'].mean())
+nota_prom = int(df_selection['promedio'].mean())
 
 left_column1, middle_column1, right_column1 = st.columns([2, 1.5, 2.5])
 with left_column1:
@@ -147,7 +186,7 @@ with right_column1:
 with st.container():
     st.markdown("---") 
     st.subheader("Nivel educativo de los padres")
-    left_column2, middle_column2, right_column2 = st.columns([2, 1.5, 2.5])
+    left_column2, middle_column2, right_column2 = st.columns([2, 2, 2.5])
     #with left_column2:
 
     with middle_column2:
@@ -155,3 +194,11 @@ with st.container():
     with right_column2:
         st.plotly_chart(fig1)
 
+with st.container():
+    st.markdown("---") 
+    st.subheader("Preparación previa")
+    left_column3, middle_column3, right_column3 = st.columns([1.5, 2.5, 2.5])
+    #with left_column3:
+    with middle_column3:
+        st.plotly_chart(fig5)
+    #with right_column3:
