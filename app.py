@@ -22,8 +22,7 @@ df = df.rename(columns={
     'writing score': 'Nota en escritura'
 })
 
-
-df['Preparación'] = df['Preparación'].replace({'completed': 'Completado', 'none': 'Ninguno'})
+df['Preparación'] = df['Preparación'].replace({'completed': 'Completado', 'none': 'Ninguna'})
 df['Nivel educativo de los padres'] = df['Nivel educativo de los padres'].replace({
     'associate\'s degree': 'Título de asociado',
     'bachelor\'s degree': 'Licenciatura',
@@ -34,7 +33,7 @@ df['Nivel educativo de los padres'] = df['Nivel educativo de los padres'].replac
 })
 
 # ---- Calculo de notas (letras)
-df['promedio'] = round((df['Nota en matemáticas'] + df['Nota en lectura'] + df['Nota en escritura']) / 3)
+df['Promedio'] = round((df['Nota en matemáticas'] + df['Nota en lectura'] + df['Nota en escritura']) / 3)
 
 def nota_a_letra(nota):
     if nota >= 90:
@@ -48,7 +47,7 @@ def nota_a_letra(nota):
     else:
         return "F"
 
-df['nota'] = df['promedio'].apply(nota_a_letra)
+df['nota'] = df['Promedio'].apply(nota_a_letra)
 
 # ---- SIDEBAR
 st.sidebar.header("Filtros")
@@ -68,10 +67,9 @@ nivel_edu = st.sidebar.multiselect(
     default=sorted(df['Nivel educativo de los padres'].unique())
     )
 
-
 df_selection = df[df['Preparación'].isin(preparacion) & df['nota'].isin(notas) & df['Nivel educativo de los padres'].isin(nivel_edu)]
 
-# ---- Grafico
+# ---- Grafico 1
 parental_df = df_selection['Nivel educativo de los padres'].value_counts().reset_index()
 parental_df.columns = ['Nivel Educativo', 'conteo']
 parental_df.sort_values('conteo', ascending=True, inplace=True)
@@ -107,7 +105,7 @@ fig2.update_traces(
 
 # ---- Grafico 3
 
-fig5 = px.histogram(df, y="nota", color="Preparación",
+fig5 = px.histogram(df_selection, y="nota", color="Preparación",
     category_orders={"nota": ['A', 'B', 'C', 'D', 'F']}, 
     barnorm='percent',
     title="Distribución de Notas por Preparación previa")
@@ -171,7 +169,7 @@ st.markdown("##")
 
 #---- NOTAS ESTUDIANTES ----
 
-nota_prom = int(df_selection['promedio'].mean())
+nota_prom = int(df_selection['Promedio'].mean())
 
 left_column1, middle_column1, right_column1 = st.columns([2, 1.5, 2.5])
 with left_column1:
