@@ -8,46 +8,7 @@ st.set_page_config(page_title="Rendimiento de los estudiantes",
                    layout="wide"
 )
 
-df = pd.read_csv('StudentsPerformance G5-G6 - StudentsPerformance G5-G6.csv')
-
-# ---- Traducción del DataFrame
-df = df.rename(columns={
-    'gender': 'Género',
-    'race/ethnicity': 'Raza',
-    'parental level of education': 'Nivel educativo de los padres',
-    'lunch': 'almuerzo',
-    'test preparation course': 'Preparación',
-    'math score': 'Nota en matemáticas',
-    'reading score': 'Nota en lectura',
-    'writing score': 'Nota en escritura'
-})
-
-df['Preparación'] = df['Preparación'].replace({'completed': 'Completada', 'none': 'Ninguna'})
-df['Nivel educativo de los padres'] = df['Nivel educativo de los padres'].replace({
-    'associate\'s degree': 'Título de asociado',
-    'bachelor\'s degree': 'Licenciatura',
-    'high school': 'Escuela secundaria',
-    'master\'s degree': 'Título de maestría',
-    'some college': 'Algun estudio universitario',
-    'some high school': 'Algun estudio de secundaria'
-})
-
-# ---- Calculo de notas (letras)
-df['Promedio'] = round((df['Nota en matemáticas'] + df['Nota en lectura'] + df['Nota en escritura']) / 3)
-
-def nota_a_letra(nota):
-    if nota >= 90:
-        return "A"
-    elif nota >= 80:
-        return "B"
-    elif nota >= 70:
-        return "C"
-    elif nota >= 60:
-        return "D"
-    else:
-        return "F"
-
-df['nota'] = df['Promedio'].apply(nota_a_letra)
+df = pd.read_csv('https://raw.githubusercontent.com/Rickfer14/StudentsPerformance-G5-G6-Grupo-5/refs/heads/main/Rendimiento%20de%20los%20estudiantes%20de%205to%20y%206to%20grado.csv')
 
 # ---- SIDEBAR
 st.sidebar.header("Filtros")
@@ -58,8 +19,8 @@ preparacion = st.sidebar.multiselect(
     )
 notas = st.sidebar.multiselect(
     "Nota",
-    options=df['nota'].unique(),
-    default=sorted(df['nota'].unique())
+    options=df['Nota'].unique(),
+    default=sorted(df['Nota'].unique())
     )
 nivel_edu = st.sidebar.multiselect(
     "Nivel educativo de los padres",
@@ -67,7 +28,7 @@ nivel_edu = st.sidebar.multiselect(
     default=sorted(df['Nivel educativo de los padres'].unique())
     )
 
-df_selection = df[df['Preparación'].isin(preparacion) & df['nota'].isin(notas) & df['Nivel educativo de los padres'].isin(nivel_edu)]
+df_selection = df[df['Preparación'].isin(preparacion) & df['Nota'].isin(notas) & df['Nivel educativo de los padres'].isin(nivel_edu)]
 
 # ---- Grafico 1
 parental_df = df_selection['Nivel educativo de los padres'].value_counts().reset_index()
@@ -86,7 +47,7 @@ fig1.update_traces(
 )
 
 # ---- Grafico 2
-notas_df = df_selection['nota'].value_counts().reset_index()
+notas_df = df_selection['Nota'].value_counts().reset_index()
 notas_df.columns = ['Nota', 'conteo']
 notas_df.sort_values('Nota', inplace=True)
 
@@ -105,8 +66,8 @@ fig2.update_traces(
 
 # ---- Grafico 3
 
-fig5 = px.histogram(df_selection, y="nota", color="Preparación",
-    category_orders={"nota": ['A', 'B', 'C', 'D', 'F']}, 
+fig5 = px.histogram(df_selection, y="Nota", color="Preparación",
+    category_orders={"Nota": ['A', 'B', 'C', 'D', 'F']}, 
     barnorm='percent',
     title="Distribución de Notas por Preparación previa")
 fig5.update_layout(
