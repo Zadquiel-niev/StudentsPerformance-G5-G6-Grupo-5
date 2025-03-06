@@ -22,7 +22,7 @@ df = df.rename(columns={
     'writing score': 'Nota en escritura'
 })
 
-df['Preparación'] = df['Preparación'].replace({'completed': 'Completado', 'none': 'Ninguna'})
+df['Preparación'] = df['Preparación'].replace({'completed': 'Completada', 'none': 'Ninguna'})
 df['Nivel educativo de los padres'] = df['Nivel educativo de los padres'].replace({
     'associate\'s degree': 'Título de asociado',
     'bachelor\'s degree': 'Licenciatura',
