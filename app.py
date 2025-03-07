@@ -27,8 +27,17 @@ nivel_edu = st.sidebar.multiselect(
     options=df['Nivel educativo de los padres'].unique(),
     default=sorted(df['Nivel educativo de los padres'].unique())
     )
+almuerzo = st.sidebar.multiselect(
+    "Almuerzo",
+    options=df['Almuerzo'].unique(),
+    default=sorted(df['Almuerzo'].unique())
+    )
 
-df_selection = df[df['Preparación'].isin(preparacion) & df['Nota'].isin(notas) & df['Nivel educativo de los padres'].isin(nivel_edu)]
+df_selection = df[df['Preparación'].isin(preparacion) & df['Nota'].isin(notas) & df['Nivel educativo de los padres'].isin(nivel_edu) & df['Almuerzo'].isin(almuerzo)]
+
+# ---- Colores
+azul1 = 'rgba(0, 104, 201, 1)'
+azul2 = 'rgba(131, 201, 255, 1)'
 
 # ---- Grafico 1
 parental_df = df_selection['Nivel educativo de los padres'].value_counts().reset_index()
@@ -39,9 +48,11 @@ fig1 = px.bar(parental_df, x='Nivel Educativo', y= 'conteo')
 fig1.update_layout(
     xaxis_title="", 
     yaxis_title="",
+    height=400,
+    margin=dict(l=0, r=0, t=0, b=0),
     )
 fig1.update_traces(
-    marker=dict(color='RebeccaPurple'),
+    marker=dict(color=azul2),
     text=parental_df[ 'conteo'], 
     textposition='outside' 
 )
@@ -59,7 +70,7 @@ fig2.update_layout(
     margin=dict(l=0, r=0, t=0, b=0)
     )
 fig2.update_traces(
-    marker=dict(color='RebeccaPurple'),
+    marker=dict(color=azul2),
     text=notas_df[ 'conteo'], 
     textposition='outside' 
 )
@@ -145,7 +156,7 @@ with right_column1:
 with st.container():
     st.markdown("---") 
     st.subheader("Nivel educativo de los padres")
-    left_column2, middle_column2, right_column2 = st.columns([2, 2, 2.5])
+    left_column2, middle_column2, right_column2 = st.columns([2, 1.5, 2.5])
     #with left_column2:
 
     with middle_column2:
