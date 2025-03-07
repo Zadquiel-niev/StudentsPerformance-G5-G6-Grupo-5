@@ -70,7 +70,7 @@ fig2.update_layout(
     margin=dict(l=0, r=0, t=0, b=0)
     )
 fig2.update_traces(
-    marker=dict(color='RebeccaPurple'),
+    marker=dict(color=azul2),
     text=notas_df[ 'conteo'], 
     textposition='outside' 
 )
