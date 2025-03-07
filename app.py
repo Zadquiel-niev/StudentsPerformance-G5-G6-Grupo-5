@@ -13,22 +13,22 @@ df = pd.read_csv('https://raw.githubusercontent.com/Rickfer14/StudentsPerformanc
 # ---- SIDEBAR
 st.sidebar.header("Filtros")
 preparacion = st.sidebar.multiselect(
-    "Preparación previa",
+    ":open_book: Preparación previa",
     options=df['Preparación'].unique(),
     default=sorted(df['Preparación'].unique())
     )
 notas = st.sidebar.multiselect(
-    "Nota",
+    ":pencil: Nota",
     options=df['Nota'].unique(),
     default=sorted(df['Nota'].unique())
     )
 nivel_edu = st.sidebar.multiselect(
-    "Nivel educativo de los padres",
+    ":mortar_board: Nivel educativo de los padres",
     options=df['Nivel educativo de los padres'].unique(),
     default=sorted(df['Nivel educativo de los padres'].unique())
     )
 almuerzo = st.sidebar.multiselect(
-    "Almuerzo",
+    ":bowl_with_spoon: Almuerzo",
     options=df['Almuerzo'].unique(),
     default=sorted(df['Almuerzo'].unique())
     )
@@ -141,34 +141,42 @@ st.markdown("##")
 
 #---- NOTAS ESTUDIANTES ----
 
-nota_prom = int(df_selection['Promedio'].mean())
+nota_prom = int(df_selection['Promedio'].mean(0))
 
-left_column1, middle_column1, right_column1 = st.columns([2, 1.5, 2.5])
-with left_column1:
-    st.subheader("Nota promedio")
-    st.subheader(str(nota_prom) + "/100")
-with middle_column1:
-    st.subheader("Notas")
-    st.plotly_chart(fig3,use_container_width=False)
-with right_column1:
-    st.plotly_chart(fig2)
+# ---- Distintas tabs
+tab1, tab2 = st.tabs(["Dashboard", "Base de datos"])
 
-with st.container():
-    st.markdown("---") 
-    st.subheader("Nivel educativo de los padres")
-    left_column2, middle_column2, right_column2 = st.columns([2, 1.5, 2.5])
-    #with left_column2:
+# ---- Tab 1
+with tab1:
+    left_column1, middle_column1, right_column1 = st.columns([2, 1.5, 2.5])
+    with left_column1:
+        st.metric(label="Nota promedio", value=nota_prom, delta=(nota_prom - int(df['Promedio'].mean(0))))
+    with middle_column1:
+        st.subheader("Notas")
+        st.plotly_chart(fig3,use_container_width=False)
+    with right_column1:
+        st.plotly_chart(fig2)
 
-    with middle_column2:
-        st.plotly_chart(fig4,use_container_width=False)
-    with right_column2:
-        st.plotly_chart(fig1)
+    with st.container():
+        st.markdown("---") 
+        st.subheader("Nivel educativo de los padres")
+        left_column2, middle_column2, right_column2 = st.columns([2, 1.5, 2.5])
+        #with left_column2:
 
-with st.container():
-    st.markdown("---") 
-    st.subheader("Preparación previa")
-    left_column3, middle_column3, right_column3 = st.columns([1.5, 2.5, 2.5])
-    #with left_column3:
-    with middle_column3:
-        st.plotly_chart(fig5)
-    #with right_column3:
+        with middle_column2:
+            st.plotly_chart(fig4,use_container_width=False)
+        with right_column2:
+            st.plotly_chart(fig1)
+
+    with st.container():
+        st.markdown("---") 
+        st.subheader("Preparación previa")
+        left_column3, middle_column3, right_column3 = st.columns([1.5, 2.5, 2.5])
+        #with left_column3:
+        with middle_column3:
+            st.plotly_chart(fig5)
+        #with right_column3:
+
+# ---- Tab 2
+with tab2:
+    st.dataframe(df_selection)
