@@ -115,12 +115,41 @@ fig4 = px.scatter(
     x='tasa_conv2',
     y='Nivel educativo de los padres',
     color='Almuerzo',
-    title='Tasa de conversión para Nivel educativo de los padres y Almuerzo',
-    labels={'tasa_conv2': 'Tasa de conversión (%)', 'Nivel_educativo': 'Nivel educativo de los padres'},
+    title='',
+    labels={'tasa_conv2': 'Tasa de conversión (%)', 'Nivel_educativo': ''},
     range_x=[0, 100],
-    category_orders={"Nivel educativo de los padres": orden_categorias}
+    category_orders={"Nivel educativo de los padres": orden_categorias},
+    height=350
     )
+fig4.update_layout(
+        legend=dict(
+        orientation="h",
+        y=1.15,
+        xanchor="center",
+        x=0.5,
+        title=''),
+        margin=dict(l=0, r=0, t=50, b=0)
+    )
+# ---- Grafico 5
 
+fig5 = px.box(
+    df_selection,
+    x='Nivel educativo de los padres',
+    y='Promedio',
+    color='Preparación',
+    title='',
+    labels={'Promedio': 'Nota', 'Nivel educativo de los padres': ''},
+    category_orders={"Nivel educativo de los padres": orden_categorias}
+)
+fig5.update_layout(
+        legend=dict(
+        orientation="h",
+        y=1.1,
+        xanchor="center",
+        x=0.5,
+        title=''),
+        margin=dict(l=0, r=0, t=0, b=0)
+    )
 # ---- Tabla 1
 data = {
     'A': ['APROBADO', '100% - 90%'],
@@ -198,17 +227,28 @@ with tab1:
             st.markdown('&emsp;&emsp;Distribución de notas por preparación previa')
             st.plotly_chart(fig2)
         with right_column2:
+            st.markdown("---") 
             st.write("Tasa de estudiantes que se preparan para el examen\nsegún el nivel educativo de los padres")
             st.plotly_chart(fig3)
 
+    # ---- Preparación y Almuerzo
+
     with st.container():
         st.markdown("---") 
-        st.subheader("Impacto del Almuerzo")
-        left_column3, right_column3 = st.columns([2, 2])
-        #with left_column3:
-        #with middle_column3:
-    
+        st.subheader("Impacto de la Preparación y el Almuerzo")
+        left_column3, middle_column3, right_column3 = st.columns([1.2, 1.8, 1.9], gap='medium')
+        with left_column3:
+            st.markdown("---")
+            st.markdown("Se observan las concentraciones de estudiantes que completaron la preparación y los que no según el nivel educativo de los padres, por su nota promedio.")
+            st.markdown("---")
+            st.markdown("Además observamos el impacto de los tipos de almuerzo en la preparación previa según el nivel educativo de los padres.")
+        with middle_column3:
+            st.markdown("---") 
+            st.write("Notas segun el Nivel educativo de los padres y su Preparación")
+            st.plotly_chart(fig5)
         with right_column3:
+            st.markdown("---") 
+            st.write("Tasa de conversión para Nivel educativo de los padres y Almuerzo")
             st.plotly_chart(fig4)
 
 # ---- Tab 2 ----
