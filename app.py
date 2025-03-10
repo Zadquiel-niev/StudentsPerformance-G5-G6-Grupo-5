@@ -236,7 +236,7 @@ with tab1:
     with st.container():
         st.markdown("---") 
         st.subheader("Impacto de la Preparación y el Almuerzo")
-        left_column3, middle_column3, right_column3 = st.columns([1.2, 1.8, 1.9], gap='medium')
+        left_column3, middle_column3, right_column3 = st.columns([1.2, 1.8, 1.9], gap='large')
         with left_column3:
             st.markdown("---")
             st.markdown("Se observan las concentraciones de estudiantes que completaron la preparación y los que no según el nivel educativo de los padres, por su nota promedio.")
