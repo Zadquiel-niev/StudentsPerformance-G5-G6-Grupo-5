@@ -1,4 +1,0 @@
-pandas==2.2.3
-plotly==6.0.0
-plotly-express==0.4.1
-streamlit==1.42.2
