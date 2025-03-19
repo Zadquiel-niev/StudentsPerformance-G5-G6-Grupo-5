@@ -252,5 +252,8 @@ with tab1:
             st.plotly_chart(fig4)
 
 # ---- Tab 2 ----
+
+df_selection1 = df_selection.drop(columns=['Preparación_bin'])
+
 with tab2:
-    st.dataframe(df_selection)
+    st.dataframe(df_selection1)
