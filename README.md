@@ -4,7 +4,7 @@ Este proyecto tiene como objetivo analizar la correlación entre el nivel educat
 
 ## PLANTEAMIENTO DEL PROBLEMA
 
-La educación es un pilar fundamental para el desarrollo individual y social, y su calidad está influenciada por múltiples factores, como el entorno familiar y las condiciones socioeconómicas. Estudios previos han demostrado que el nivel educativo de los padres es un predictor clave en el aprendizaje y rendimiento de los niños. Sin embargo, en casos donde los padres tienen una menor formación educativa, factores socioeconómicos como el tipo de almuerzo pueden influir en la preparación previa para exámenes y, por ende, en el rendimiento académico.
+La educación es un pilar fundamental para el desarrollo individual y social, y su calidad está influenciada por múltiples factores, como el entorno familiar y las condiciones socioeconómicas. Estudios previos han demostrado que el nivel educativo de los padres es un predictor clave en el aprendizaje y rendimiento de los niños. Sin embargo, en casos donde los padres tienen una menor formación educativa, factores que quizás se piense que no influyan, como el género de los estudiantes, pueden influir en la preparación previa para exámenes y, por ende, en el rendimiento académico.
 
 ## OBJETIVOS
 ### OBJETIVO GENERAL
