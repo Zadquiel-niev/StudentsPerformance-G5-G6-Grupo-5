@@ -27,13 +27,13 @@ nivel_edu = st.sidebar.multiselect(
     options=df['Nivel educativo de los padres'].unique(),
     default=sorted(df['Nivel educativo de los padres'].unique())
     )
-almuerzo = st.sidebar.multiselect(
-    ":bowl_with_spoon: Almuerzo",
-    options=df['Almuerzo'].unique(),
-    default=sorted(df['Almuerzo'].unique())
+genero = st.sidebar.multiselect(
+    ":female_sign::male_sign: Género",
+    options=df['Género'].unique(),
+    default=sorted(df['Género'].unique())
     )
 
-df_selection = df[df['Preparación'].isin(preparacion) & df['Nota'].isin(notas) & df['Nivel educativo de los padres'].isin(nivel_edu) & df['Almuerzo'].isin(almuerzo)]
+df_selection = df[df['Preparación'].isin(preparacion) & df['Nota'].isin(notas) & df['Nivel educativo de los padres'].isin(nivel_edu) & df['Género'].isin(genero)]
 
 # ---- Calculos
 
@@ -108,13 +108,13 @@ fig3.update_layout(
 )
 
 # ---- Grafico 4
-tc = df_selection.groupby(['Nivel educativo de los padres', 'Almuerzo'])['Preparación_bin'].mean().mul(100).rename('tasa_conv2').reset_index()
+tc = df_selection.groupby(['Nivel educativo de los padres', 'Género'])['Preparación_bin'].mean().mul(100).rename('tasa_conv2').reset_index()
 
 fig4 = px.scatter(
     tc,
     x='tasa_conv2',
     y='Nivel educativo de los padres',
-    color='Almuerzo',
+    color='Género',
     title='',
     labels={'tasa_conv2': 'Tasa de conversión (%)', 'Nivel_educativo': ''},
     range_x=[0, 100],
@@ -231,24 +231,24 @@ with tab1:
             st.write("Tasa de estudiantes que se preparan para el examen\nsegún el nivel educativo de los padres")
             st.plotly_chart(fig3)
 
-    # ---- Preparación y Almuerzo
+    # ---- Preparación y Género
 
     with st.container():
         st.markdown("---") 
-        st.subheader("Impacto de la Preparación y el Almuerzo")
+        st.subheader("Impacto de la Preparación y el Género")
         left_column3, middle_column3, right_column3 = st.columns([1.2, 1.8, 1.9], gap='large')
         with left_column3:
             st.markdown("---")
             st.markdown("Se observan las concentraciones de estudiantes que completaron la preparación y los que no según el nivel educativo de los padres, por su nota promedio.")
             st.markdown("---")
-            st.markdown("Además observamos el impacto de los tipos de almuerzo en la preparación previa según el nivel educativo de los padres.")
+            st.markdown("Además observamos el impacto del Género en la preparación previa según el nivel educativo de los padres.")
         with middle_column3:
             st.markdown("---") 
             st.write("Notas segun el Nivel educativo de los padres y su Preparación")
             st.plotly_chart(fig5)
         with right_column3:
             st.markdown("---") 
-            st.write("Tasa de conversión para Nivel educativo de los padres y Almuerzo")
+            st.write("Tasa de conversión para Nivel educativo de los padres y Género")
             st.plotly_chart(fig4)
 
 # ---- Tab 2 ----
