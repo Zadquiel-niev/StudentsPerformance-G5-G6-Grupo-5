@@ -1,4 +1,4 @@
-# ANALIZAR LA CORRELACIÓN ENTRE EL NIVEL EDUCATIVO PARENTAL Y LA PREPARACIÓN PREVIA PARA EXÁMENES EN ESTUDIANTES DE 5º Y 6º GRADO, CONSIDERANDO EL SEXO DEL ESTUDIANTE COMO FACTOR CLAVE EN ESTUDIANTES CON PADRES DE MENOR FORMACION EDUCATIVA
+# 📊 ANALIZAR LA CORRELACIÓN ENTRE EL NIVEL EDUCATIVO PARENTAL Y LA PREPARACIÓN PREVIA PARA EXÁMENES EN ESTUDIANTES DE 5º Y 6º GRADO, CONSIDERANDO EL SEXO DEL ESTUDIANTE COMO FACTOR CLAVE EN ESTUDIANTES CON PADRES DE MENOR FORMACION EDUCATIVA
 
 Este proyecto tiene como objetivo analizar la correlación entre el nivel educativo de los padres y la preparación previa para exámenes en estudiantes de 5º y 6º grado, considerando el sexo del estudiante como un factor clave en estudiantes con padres de menor formación educativa. La investigación se basa en la premisa de que el nivel educativo parental influye en el rendimiento académico de los hijos, y que factores externos, como el género del estudiante, pueden modular esta relación.
 
@@ -34,5 +34,5 @@ El estudio se basa en una base de datos extraída de internet, por lo que los re
 ### ALCANCES
  Proporciona un análisis descriptivo replicable que puede servir como base para futuras investigaciones y para la toma de decisiones en políticas educativas.
 
- ## ¡VISITANOS!😃
+ ## ¡VISITANOS!
  https://estudiantesg5-g6bydiego-ricardo.streamlit.app/
